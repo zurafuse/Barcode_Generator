@@ -40,43 +40,6 @@ def large_space(barcode):
     barcode.forward(12)
     
 
-def draw_a(barcode):
-    thick_bar(barcode)
-    small_space(barcode)
-    thin_bar(barcode)
-    small_space(barcode)
-    thin_bar(barcode)
-    large_space(barcode)
-    thin_bar(barcode)
-    small_space(barcode)
-    thick_bar(barcode)
-    small_space(barcode)
-
-def draw_b(barcode):
-    thin_bar(barcode)
-    small_space(barcode)
-    thick_bar(barcode)
-    small_space(barcode)
-    thin_bar(barcode)
-    large_space(barcode)
-    thin_bar(barcode)
-    small_space(barcode)
-    thick_bar(barcode)
-    small_space(barcode)
-
-def draw_c(barcode):
-    thick_bar(barcode)
-    small_space(barcode)
-    thick_bar(barcode)
-    small_space(barcode)
-    thin_bar(barcode)
-    large_space(barcode)
-    thin_bar(barcode)
-    small_space(barcode)
-    thin_bar(barcode)
-    small_space(barcode)
-    
-
 def draw_star(barcode):
     thin_bar(barcode)
     large_space(barcode)
@@ -100,6 +63,24 @@ def finish_barcode(barcode):
     barcode.forward(100)
     barcode.left(90)
     barcode.forward(360)
+	
+	
+def draw(barcode, call):
+	if call == "thin":
+		thin_bar(barcode)
+	else if call == "thick":
+		thick_bar(barcode)
+	else if call == "large":
+		large_space(barcode)
+	else if call == "small":
+		small_space(barcode)
+		
+
+Word = {
+	"A": ["thick", "small", "thin", "small", "thin", "large", "thin", "small", "thick", "small"],
+	"B": ["thin", "small", "thick", "small", "thin", "large", "thin", "small", "thick", "small"],
+	"C": ["thick", "small", "thick", "small", "thin", "large", "thin", "small", "thin", "small"]
+	}
 
     
 barcode = turtle.Turtle()
@@ -108,9 +89,14 @@ barcode.width(7)
 barcode.speed(17)
 
 draw_star(barcode)
-draw_a(barcode)
-draw_b(barcode)
-draw_c(barcode)
+
+for i in Word["A"]:
+	draw(barcode, i)
+for i in Word["B"]:
+	draw(barcode, i)
+for i in Word["C"]:
+	draw(barcode, i)
+
 draw_star(barcode)
 finish_barcode(barcode)
 
