@@ -1,9 +1,13 @@
 import turtle
 
-UserInput = input("Enter letters and numbers to be converted to a 3of9 barcode.")
+UserInput = input("Enter letters and numbers to be converted to a 3of9 barcode. Maximum of 10 characters.")
 
 window = turtle.Screen()
 window.bgcolor("white")
+
+rootwindow = window.getcanvas().winfo_toplevel()
+rootwindow.call('wm', 'attributes', '.', '-topmost', '1')
+rootwindow.call('wm', 'attributes', '.', '-topmost', '0')
 
 def thin_bar(barcode):
     barcode.width(3)   
@@ -16,7 +20,7 @@ def thin_bar(barcode):
     barcode.right(90)
     barcode.color("white")
     barcode.width(1)
-    barcode.forward(5)
+    barcode.forward(4)
 
 def thick_bar(barcode):
     barcode.width(7)   
@@ -60,11 +64,11 @@ def finish_barcode(barcode):
     barcode.color("white")
     barcode.left(90)
     barcode.left(90)
-    barcode.forward(750)
+    barcode.forward(950)
     barcode.left(90)
     barcode.forward(100)
     barcode.left(90)
-    barcode.forward(750)
+    barcode.forward(950)
 	
 	
 def draw(barcode, call):
@@ -95,7 +99,7 @@ Word = {
 	"N": ["thin", "small", "thin", "small", "thick", "small", "thin", "large", "thick", "small"],	
         "O": ["thick", "small", "thin", "small", "thick", "small", "thin", "large", "thin", "small"],	
 	"P": ["thin", "small", "thick", "small", "thick", "small", "thin", "large", "thin", "small"],	
-        "Q": ["small", "thin", "small", "thin", "small", "thin", "small", "thick", "large", "thick", "small"],	
+        "Q": ["thin", "small", "thin", "small", "thin", "small", "thick", "large", "thick", "small"],	
 	"R": ["thick", "small", "thin", "small", "thin", "small", "thick", "large", "thin", "small"],	
         "S": ["thin", "small", "thick", "small", "thin", "small", "thick", "large", "thin", "small"],	
 	"T": ["thin", "small", "thin", "small", "thick", "small", "thick", "large", "thin", "small"],	
@@ -110,14 +114,12 @@ Word = {
         "3": ["thick", "small", "thick", "large", "thin", "small", "thin", "small", "thin", "small"],	
 	"4": ["thin", "small", "thin", "large", "thick", "small", "thin", "small", "thick", "small"],	
         "5": ["thick", "small", "thin", "large", "thick", "small", "thin", "small", "thin", "small"],	
-	"6": ["thin", "small", "thick", "large", "thick", "small", "thin", "small", "thin", "small"],	
+	"6": ["space", "thin", "small", "thick", "large", "thick", "small", "thin", "small", "thin", "small"],	
         "7": ["thin", "small", "thin", "large", "thin", "small", "thick", "small", "thick", "small"],	
 	"8": ["thick", "small", "thin", "large", "thin", "small", "thick", "small", "thin", "small"],	
         "9": ["thin", "small", "thick", "large", "thin", "small", "thick", "small", "thin", "small"],	
 	"0": ["thin", "small", "thin", "large", "thick", "small", "thick", "small", "thin", "small"]
 	}
-
-'''Q and W are having problems.'''
     
 barcode = turtle.Turtle()
 barcode.color("white")
@@ -133,10 +135,17 @@ barcode.color("black")
 
 draw_star(barcode)
 
+ListCount = 0
 for i in UserInput:
-    for j in Word[i]:
-        draw(barcode, j)
+    if ListCount < 10:
+        NewString = i.upper()
+        try:
+            for j in Word[NewString]:
+                    draw(barcode, j)
+        except KeyError:
+            print("Your input must be letters and/or whole numbers. Try again.")
 
+    ListCount += 1
 
 draw_star(barcode)
 finish_barcode(barcode)
